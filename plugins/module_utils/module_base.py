@@ -152,7 +152,10 @@ class PFSenseModuleBase(object):
 
     def _create_target(self):
         """ create the XML target_elt """
-        raise NotImplementedError()
+        if self.node is not None:
+            return self.pfsense.new_element(self.node)
+        else:
+            raise NotImplementedError()
 
     def _find_this_element_index(self):
         return self.elements.index(self.target_elt)
@@ -165,7 +168,16 @@ class PFSenseModuleBase(object):
 
     def _find_target(self):
         """ find the XML target_elt """
-        raise NotImplementedError()
+        if self.node is not None:
+            result = self.root_elt.findall("{self.node}[descr='{0}']".format(self.obj['descr']))
+            if len(result) == 1:
+                return result[0]
+            elif len(result) > 1:
+                self.module.fail_json(msg='Found multiple {self.node}s for descr {0}.'.format(self.obj['descr']))
+            else:
+                return None
+        else:
+            raise NotImplementedError()
 
     @staticmethod
     def _get_params_to_remove():
