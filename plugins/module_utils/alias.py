@@ -108,12 +108,6 @@ class PFSenseAliasModule(PFSenseModuleBase):
     ##############################
     # run
     #
-    def _remove(self):
-        """ delete obj """
-        self.diff['after'] = ''
-        self.diff['before'] = ''
-        super(PFSenseAliasModule, self)._remove()
-
     def _update(self):
         """ make the target pfsense reload """
         return self.pfsense.phpshell('''require_once("filter.inc");
