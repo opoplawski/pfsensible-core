@@ -33,7 +33,10 @@ class PFSenseModuleBase(object):
 
         # xml parent of target_elt, node named by root
         if root is not None:
-            self.pfsense.get_element(root, create_node=create_node)
+            if root == 'pfsense':
+                self.root_elt = self.pfsense.root
+            else:
+                self.root_elt = self.pfsense.get_element(root, create_node=create_node)
         else:
             self.root_elt = None
         self.root = root
@@ -151,11 +154,14 @@ class PFSenseModuleBase(object):
         """ create the XML target_elt """
         raise NotImplementedError()
 
-    #def _find_this_element_index(self):
-    #    return self.elements.index(self.target_elt)
+    def _find_this_element_index(self):
+        return self.elements.index(self.target_elt)
 
     def _find_last_element_index(self):
-        return list(self.root_elt).index(self.elements[len(self.elements) - 1])
+        if len(self.elements):
+            return list(self.root_elt).index(self.elements[len(self.elements) - 1])
+        else:
+            return len(list(self.root_elt))
 
     def _find_target(self):
         """ find the XML target_elt """
