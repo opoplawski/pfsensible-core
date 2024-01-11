@@ -184,15 +184,6 @@ class PFSenseCAModule(PFSenseModuleBase):
     ##############################
     # XML processing
     #
-    def _find_target(self):
-        result = self.root_elt.findall("ca[descr='{0}']".format(self.obj['descr']))
-        if len(result) == 1:
-            return result[0]
-        elif len(result) > 1:
-            self.module.fail_json(msg='Found multiple certificate authorities for name {0}.'.format(self.obj['descr']))
-        else:
-            return None
-
     def _find_crl_for_ca(self, caref):
         result = self.root_elt.findall("crl[caref='{0}']".format(caref))
         if len(result) == 1:
