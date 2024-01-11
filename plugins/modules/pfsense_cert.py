@@ -273,15 +273,6 @@ class PFSenseCertModule(PFSenseModuleBase):
     ##############################
     # XML processing
     #
-    def _find_target(self):
-        result = self.root_elt.findall("cert[descr='{0}']".format(self.obj['descr']))
-        if len(result) == 1:
-            return result[0]
-        elif len(result) > 1:
-            self.module.fail_json(msg='Found multiple certificates for descr {0}.'.format(self.obj['descr']))
-        else:
-            return None
-
     def _find_ca(self, caref):
         result = self.root_elt.findall("ca[descr='{0}']".format(caref))
         if len(result) == 1:
@@ -296,10 +287,6 @@ class PFSenseCertModule(PFSenseModuleBase):
                 self.module.fail_json(msg='Found multiple CAs for caref {0}.'.format(caref))
             else:
                 return None
-
-    def _create_target(self):
-        """ create the XML target_elt """
-        return self.pfsense.new_element('cert')
 
     def _copy_and_add_target(self):
         """ populate the XML target_elt """
