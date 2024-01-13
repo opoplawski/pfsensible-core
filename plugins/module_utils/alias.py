@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2018, Orion Poplawski <orion@nwra.com>
+# Copyright: (c) 2018-2024, Orion Poplawski <orion@nwra.com>
 # Copyright: (c) 2018, Frederic Bor <frederic.bor@wanadoo.fr>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
@@ -114,29 +114,3 @@ class PFSenseAliasModule(PFSenseModuleBase):
             for detail in details:
                 if detail.startswith('|') or detail.endswith('|'):
                     self.module.fail_json(msg='Vertical bars (|) at start or end of descriptions not allowed')
-
-    ##############################
-    # Logging
-    #
-    def _get_obj_name(self):
-        """ return obj's name """
-        return "'" + self.obj['name'] + "'"
-
-    def _log_fields(self, before=None):
-        """ generate pseudo-CLI command fields parameters to create an obj """
-        values = ''
-        if before is None:
-            values += self.format_cli_field(self.obj, 'type')
-            values += self.format_cli_field(self.obj, 'address')
-            values += self.format_cli_field(self.obj, 'url')
-            values += self.format_cli_field(self.obj, 'updatefreq')
-            values += self.format_cli_field(self.obj, 'descr')
-            values += self.format_cli_field(self.obj, 'detail')
-        else:
-            values += self.format_updated_cli_field(self.obj, before, 'type', add_comma=(values))
-            values += self.format_updated_cli_field(self.obj, before, 'address', add_comma=(values))
-            values += self.format_updated_cli_field(self.obj, before, 'url', add_comma=(values))
-            values += self.format_updated_cli_field(self.obj, before, 'updatefreq', add_comma=(values))
-            values += self.format_updated_cli_field(self.obj, before, 'descr', add_comma=(values))
-            values += self.format_updated_cli_field(self.obj, before, 'detail', add_comma=(values))
-        return values
