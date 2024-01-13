@@ -11,7 +11,7 @@ from ansible_collections.pfsensible.core.plugins.module_utils.module_base import
 ALIAS_ARGUMENT_SPEC = dict(
     name=dict(required=True, type='str'),
     state=dict(default='present', choices=['present', 'absent']),
-    type=dict(default=None, required=False, choices=['host', 'network', 'port', 'urltable', 'urltable_ports']),
+    type=dict(required=False, choices=['host', 'network', 'port', 'urltable', 'urltable_ports']),
     address=dict(default=None, required=False, type='str'),
     url=dict(default=None, required=False, type='str'),
     descr=dict(default=None, required=False, type='str'),
@@ -87,26 +87,22 @@ class PFSenseAliasModule(PFSenseModuleBase):
                     if params['type'] != alias_elt.find('type').text:
                         self.module.fail_json(msg='An alias with this name and a different type already exists: \'{0}\''.format(params['name']))
 
+            # Aliases cannot have the same name as an interface description
             if self.pfsense.get_interface_by_display_name(params['name']) is not None:
                 self.module.fail_json(msg='An interface description with this name already exists: \'{0}\''.format(params['name']))
-
-            missings = ['type']
-            for param, value in params.items():
-                if param in missings and value is not None and value != '':
-                    missings.remove(param)
-            if missings:
-                self.module.fail_json(msg='state is present but all of the following are missing: ' + ','.join(missings))
 
             # updatefreq is for urltable only
             if params['updatefreq'] is not None and params['type'] != 'urltable' and params['type'] != 'urltable_ports':
                 self.module.fail_json(msg='updatefreq is only valid with type urltable or urltable_ports')
 
-            # check details count
             details = params['detail'].split('||') if params['detail'] is not None else []
             if params['address'] is not None:
+                # check details count
                 addresses = params['address'].split(' ')
                 if len(details) > len(addresses):
                     self.module.fail_json(msg='Too many details in relation to addresses')
+
+                # warn if address is used with urltable to urltable_ports
                 if params['type'] in ['urltable', 'urltable_ports']:
                     self.module.warn('Use of "address" with {type} is depracated, please use "url" instead'.format(type=params['type']))
 
