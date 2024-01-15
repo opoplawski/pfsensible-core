@@ -31,6 +31,15 @@ options:
     default: present
     choices: [ "present", "absent" ]
     type: str
+  method:
+    description:
+      >
+        The type of Certificate Authority to create. `internal` will create a new internal CA. `existing` will import a CA certificate. `intermediate` will
+        cerate a new intermediate CA.
+    default: existing
+    choices: ['internal', 'existing', 'intermediate']
+    type: str
+    version_added: 0.7.0
   trust:
     description: Add this Certificate Authority to the Operating System Trust Store. Defaults to false.
     type: bool
@@ -69,11 +78,60 @@ options:
     description: Number to be used as a sequential serial number for the next certificate to be signed by this CA.
     type: int
     version_added: 0.5.0
+  keytype:
+    description: Key type of the Certficate Authority
+    choices: ['RSA', 'ECDSA']
+    type: str
+    version_added: 0.7.0
+  keylen:
+    description: The keylen of the Certficate Authority
+    choices: ['1024', '2048', '3072', '4096', '6144', '7680', '8192', '15360', '16384']
+    type: str
+    version_added: 0.7.0
+  ecname:
+    description: The ecname of the Certficate Authority
+    choices: ['secp112r1', 'secp112r2', 'secp128r1', 'secp128r2', 'secp160k1', 'secp160r1', 'secp160r2', 'secp192k1', 'secp224k1', 'secp224r1', 'secp256k1', 'secp384r1', 'secp521r1', 'prime192v1', 'prime192v2', 'prime192v3', 'prime239v1', 'prime239v2', 'prime239v3', 'prime256v1', 'sect113r1', 'sect113r2', 'sect131r1', 'sect131r2', 'sect163k1', 'sect163r1', 'sect163r2', 'sect193r1', 'sect193r2', 'sect233k1', 'sect233r1', 'sect239k1', 'sect283k1', 'sect283r1', 'sect409k1', 'sect409r1', 'sect571k1', 'sect571r1', 'c2pnb163v1', 'c2pnb163v2', 'c2pnb163v3', 'c2pnb176v1', 'c2tnb191v1', 'c2tnb191v2', 'c2tnb191v3', 'c2pnb208w1', 'c2tnb239v1', 'c2tnb239v2', 'c2tnb239v3', 'c2pnb272w1', 'c2pnb304w1', 'c2tnb359v1', 'c2pnb368w1', 'c2tnb431r1', 'wap-wsg-idm-ecid-wtls1', 'wap-wsg-idm-ecid-wtls3', 'wap-wsg-idm-ecid-wtls4', 'wap-wsg-idm-ecid-wtls5', 'wap-wsg-idm-ecid-wtls6', 'wap-wsg-idm-ecid-wtls7', 'wap-wsg-idm-ecid-wtls8', 'wap-wsg-idm-ecid-wtls9', 'wap-wsg-idm-ecid-wtls10', 'wap-wsg-idm-ecid-wtls11', 'wap-wsg-idm-ecid-wtls12', 'Oakley-EC2N-3', 'Oakley-EC2N-4', 'brainpoolP160r1', 'brainpoolP160t1', 'brainpoolP192r1', 'brainpoolP192t1', 'brainpoolP224r1', 'brainpoolP224t1', 'brainpoolP256r1', 'brainpoolP256t1', 'brainpoolP320r1', 'brainpoolP320t1', 'brainpoolP384r1', 'brainpoolP384t1', 'brainpoolP512r1', 'brainpoolP512t1']
+    type: str
+    version_added: 0.7.0
+  digest_alg:
+    description: Digest Algorithm of the Certficate Authority. The digest method used when the CA is signed.
+    choices: ['sha1', 'sha224', 'sha256', 'sha384', 'sha512']
+    type: str
+    version_added: 0.7.0
+  lifetime:
+    description: Lifetime (days) of the Certficate Authority
+    type: int
+    version_added: 0.7.0
+  dn_commonname:
+    description: Common Name of the Certficate Authority
+    type: str
+    version_added: 0.7.0
+  dn_country:
+    description: Country Code of the Certficate Authority
+    choices: ['', 'US', 'CA', 'AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AN', 'AO', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AW', 'AX', 'AZ', 'BA', 'BB', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BL', 'BM', 'BN', 'BO', 'BR', 'BS', 'BT', 'BV', 'BW', 'BY', 'BZ', 'CC', 'CD', 'CF', 'CG', 'CH', 'CI', 'CK', 'CL', 'CM', 'CN', 'CO', 'CR', 'CU', 'CV', 'CX', 'CY', 'CZ', 'DE', 'DJ', 'DK', 'DM', 'DO', 'DZ', 'EC', 'EE', 'EG', 'EH', 'ER', 'ES', 'ET', 'FI', 'FJ', 'FK', 'FM', 'FO', 'FR', 'GA', 'GB', 'GD', 'GE', 'GF', 'GG', 'GH', 'GI', 'GL', 'GM', 'GN', 'GP', 'GQ', 'GR', 'GS', 'GT', 'GU', 'GW', 'GY', 'HK', 'HM', 'HN', 'HR', 'HT', 'HU', 'ID', 'IE', 'IL', 'IM', 'IN', 'IO', 'IQ', 'IR', 'IS', 'IT', 'JE', 'JM', 'JO', 'JP', 'KE', 'KG', 'KH', 'KI', 'KM', 'KN', 'KP', 'KR', 'KW', 'KY', 'KZ', 'LA', 'LB', 'LC', 'LI', 'LK', 'LR', 'LS', 'LT', 'LU', 'LV', 'LY', 'MA', 'MC', 'MD', 'ME', 'MF', 'MG', 'MH', 'MK', 'ML', 'MM', 'MN', 'MO', 'MP', 'MQ', 'MR', 'MS', 'MT', 'MU', 'MV', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NC', 'NE', 'NF', 'NG', 'NI', 'NL', 'NO', 'NP', 'NR', 'NU', 'NZ', 'OM', 'PA', 'PE', 'PF', 'PG', 'PH', 'PK', 'PL', 'PM', 'PN', 'PR', 'PS', 'PT', 'PW', 'PY', 'QA', 'RE', 'RO', 'RS', 'RU', 'RW', 'SA', 'SB', 'SC', 'SD', 'SE', 'SG', 'SH', 'SI', 'SJ', 'SK', 'SL', 'SM', 'SN', 'SO', 'SR', 'ST', 'SV', 'SY', 'SZ', 'TC', 'TD', 'TF', 'TG', 'TH', 'TJ', 'TK', 'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UA', 'UG', 'UM', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VI', 'VN', 'VU', 'WF', 'WS', 'YE', 'YT', 'ZA', 'ZM', 'ZW']
+    type: str
+    version_added: 0.7.0
+  dn_state:
+    description: State or Province of the Certficate Authority
+    type: str
+    version_added: 0.7.0
+  dn_city:
+    description: City of the Certficate Authority
+    type: str
+    version_added: 0.7.0
+  dn_organization:
+    description: Organization of the Certficate Authority
+    type: str
+    version_added: 0.7.0
+  dn_organizationalunit:
+    description: Organizational Unit of the Certficate Authority
+    type: str
+    version_added: 0.7.0
 """
 
 EXAMPLES = """
 - name: Add AD Certificate Authority
-  pfsense_ca:
+  pfsensible.core.pfsense_ca:
     name: AD CA
     certificate: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tDQpNSUlGcXpDQ0E1T2dB...
     crl: |
@@ -82,6 +140,26 @@ EXAMPLES = """
       ...
       r0hUUy3w1trKtymlyhmd5XmYzINYp8p/Ws+boST+Fcw3chWTep/J8nKMeKESO0w=
       -----END X509 CRL-----
+    state: present
+
+- name: Add a new internal CA
+  pfsensible.core.pfsense_ca:
+    name: My Internal CA
+    method: internal
+    trust: true
+    randomserial: true
+    serial: 1
+    keytype: RSA
+    keylen: 1024
+    ecname: secp112r1
+    digest_alg: sha1
+    lifetime: 3650
+    dn_commonname: myinternal-ca
+    dn_country: US
+    dn_state: Colorado
+    dn_city: Boulder
+    dn_organization: My Organization
+    dn_organizationalunit: My Department
     state: present
 
 - name: Remove AD Certificate Authority
@@ -103,6 +181,7 @@ from ansible_collections.pfsensible.core.plugins.module_utils.module_base import
 PFSENSE_CA_ARGUMENT_SPEC = dict(
     name=dict(required=True, type='str'),
     state=dict(type='str', default='present', choices=['present', 'absent']),
+    method=dict(type='str', choices=['internal', 'existing', 'intermediate']),
     trust=dict(type='bool'),
     randomserial=dict(type='bool'),
     certificate=dict(type='str'),
@@ -110,6 +189,30 @@ PFSENSE_CA_ARGUMENT_SPEC = dict(
     crlname=dict(default=None, type='str'),
     crlrefid=dict(default=None, type='str'),
     serial=dict(type='int'),
+    keytype=dict(type='str', choices=['RSA', 'ECDSA'],),
+    keylen=dict(type='str', choices=['1024', '2048', '3072', '4096', '6144', '7680', '8192', '15360', '16384'],),
+    ecname=dict(type='str',
+                choices=['secp112r1', 'secp112r2', 'secp128r1', 'secp128r2', 'secp160k1', 'secp160r1', 'secp160r2', 'secp192k1', 'secp224k1', 'secp224r1',
+                         'secp256k1', 'secp384r1', 'secp521r1', 'prime192v1', 'prime192v2', 'prime192v3', 'prime239v1', 'prime239v2', 'prime239v3',
+                         'prime256v1', 'sect113r1', 'sect113r2', 'sect131r1', 'sect131r2', 'sect163k1', 'sect163r1', 'sect163r2', 'sect193r1', 'sect193r2',
+                         'sect233k1', 'sect233r1', 'sect239k1', 'sect283k1', 'sect283r1', 'sect409k1', 'sect409r1', 'sect571k1', 'sect571r1', 'c2pnb163v1',
+                         'c2pnb163v2', 'c2pnb163v3', 'c2pnb176v1', 'c2tnb191v1', 'c2tnb191v2', 'c2tnb191v3', 'c2pnb208w1', 'c2tnb239v1', 'c2tnb239v2',
+                         'c2tnb239v3', 'c2pnb272w1', 'c2pnb304w1', 'c2tnb359v1', 'c2pnb368w1', 'c2tnb431r1', 'wap-wsg-idm-ecid-wtls1', 'wap-wsg-idm-ecid-wtls3',
+                         'wap-wsg-idm-ecid-wtls4', 'wap-wsg-idm-ecid-wtls5', 'wap-wsg-idm-ecid-wtls6', 'wap-wsg-idm-ecid-wtls7', 'wap-wsg-idm-ecid-wtls8',
+                         'wap-wsg-idm-ecid-wtls9', 'wap-wsg-idm-ecid-wtls10', 'wap-wsg-idm-ecid-wtls11', 'wap-wsg-idm-ecid-wtls12', 'Oakley-EC2N-3',
+                         'Oakley-EC2N-4', 'brainpoolP160r1', 'brainpoolP160t1', 'brainpoolP192r1', 'brainpoolP192t1', 'brainpoolP224r1', 'brainpoolP224t1',
+                         'brainpoolP256r1', 'brainpoolP256t1', 'brainpoolP320r1', 'brainpoolP320t1', 'brainpoolP384r1', 'brainpoolP384t1', 'brainpoolP512r1',
+                         'brainpoolP512t1'],),
+    digest_alg=dict(type='str', choices=['sha1', 'sha224', 'sha256', 'sha384', 'sha512'],),
+    lifetime=dict(type='int'),
+    dn_commonname=dict(type='str'),
+    dn_country=dict(type='str',
+                    choices=['', 'US', 'CA', 'AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AN', 'AO', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AW', 'AX', 'AZ', 'BA', 'BB',
+                             'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BL', 'BM', 'BN', 'BO', 'BR', 'BS', 'BT', 'BV', 'BW', 'BY', 'BZ', 'CC', 'CD', 'CF', 'CG', 'CH', 'CI', 'CK', 'CL', 'CM', 'CN', 'CO', 'CR', 'CU', 'CV', 'CX', 'CY', 'CZ', 'DE', 'DJ', 'DK', 'DM', 'DO', 'DZ', 'EC', 'EE', 'EG', 'EH', 'ER', 'ES', 'ET', 'FI', 'FJ', 'FK', 'FM', 'FO', 'FR', 'GA', 'GB', 'GD', 'GE', 'GF', 'GG', 'GH', 'GI', 'GL', 'GM', 'GN', 'GP', 'GQ', 'GR', 'GS', 'GT', 'GU', 'GW', 'GY', 'HK', 'HM', 'HN', 'HR', 'HT', 'HU', 'ID', 'IE', 'IL', 'IM', 'IN', 'IO', 'IQ', 'IR', 'IS', 'IT', 'JE', 'JM', 'JO', 'JP', 'KE', 'KG', 'KH', 'KI', 'KM', 'KN', 'KP', 'KR', 'KW', 'KY', 'KZ', 'LA', 'LB', 'LC', 'LI', 'LK', 'LR', 'LS', 'LT', 'LU', 'LV', 'LY', 'MA', 'MC', 'MD', 'ME', 'MF', 'MG', 'MH', 'MK', 'ML', 'MM', 'MN', 'MO', 'MP', 'MQ', 'MR', 'MS', 'MT', 'MU', 'MV', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NC', 'NE', 'NF', 'NG', 'NI', 'NL', 'NO', 'NP', 'NR', 'NU', 'NZ', 'OM', 'PA', 'PE', 'PF', 'PG', 'PH', 'PK', 'PL', 'PM', 'PN', 'PR', 'PS', 'PT', 'PW', 'PY', 'QA', 'RE', 'RO', 'RS', 'RU', 'RW', 'SA', 'SB', 'SC', 'SD', 'SE', 'SG', 'SH', 'SI', 'SJ', 'SK', 'SL', 'SM', 'SN', 'SO', 'SR', 'ST', 'SV', 'SY', 'SZ', 'TC', 'TD', 'TF', 'TG', 'TH', 'TJ', 'TK', 'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UA', 'UG', 'UM', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VI', 'VN', 'VU', 'WF', 'WS', 'YE', 'YT', 'ZA', 'ZM', 'ZW'],),
+    dn_state=dict(type='str'),
+    dn_city=dict(type='str'),
+    dn_organization=dict(type='str'),
+    dn_organizationalunit=dict(type='str'),
 )
 
 # These are default but not enforced values
