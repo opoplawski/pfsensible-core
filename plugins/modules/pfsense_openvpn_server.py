@@ -34,7 +34,7 @@ options:
     default: false
     required: false
     type: bool
-    version_added: 0.7.1
+    version_added: 0.7.2
   authmode:
     description:
       - Authentication servers. Required if mode == server_tls_user.
